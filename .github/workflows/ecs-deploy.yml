@@ -1,18 +1,11 @@
 name: Deploy or Destroy Node.js App on ECS using Terraform
 
+name: Deploy Node.js App to ECS using Terraform
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      action:
-        description: "Choose Terraform Action"
-        required: true
-        default: "apply"
-        type: choice
-        options:
-          - apply
-          - destroy
 
 env:
   AWS_REGION: us-east-1
@@ -21,16 +14,11 @@ env:
 
 jobs:
   terraform:
-    name: Terraform Apply or Destroy
+    name: Provision ECS & ECR Infra
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.6.6
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -39,16 +27,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Terraform Init
+    - name: Terraform Init & Apply
       run: |
         cd terraform
-        terraform init
-
-    - name: Terraform Apply or Destroy
-      run: |
-        cd terraform
-        if [ "${{ github.event.inputs.action }}" = "destroy" ]; then
-          terraform destroy -auto-approve
-        else
-          terraform apply -auto-approve
-        fi
+       # terraform init
+       # terraform apply -auto-approve
+        terraform destroy -auto-approve
