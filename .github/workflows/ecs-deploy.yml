@@ -46,7 +46,9 @@ jobs:
       run: |
         cd terraform
         if [ "${{ github.event.inputs.action }}" = "destroy" ]; then
+          echo "Running terraform destroy..."
           terraform destroy -auto-approve
         else
+          echo "Running terraform apply..."
           terraform apply -auto-approve
         fi
