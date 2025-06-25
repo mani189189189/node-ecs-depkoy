@@ -51,6 +51,7 @@ jobs:
         else
           echo "Running terraform apply..."
           terraform apply -auto-approve
+        fi 
 
   build-and-push:
     name: Build and Push Docker Image
