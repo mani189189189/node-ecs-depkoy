@@ -1,5 +1,4 @@
 name: Deploy Node.js App to ECS using Terraform
-
 on:
   push:
     branches: [main]
